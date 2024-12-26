@@ -5,3 +5,9 @@
 团体减压系统/Temp/workerlic
 团体减压系统/Temp/ProcessJobs/0160cb1ac6e41c9a49556fd89bfdacd7.bakert
 团体减压系统/Temp/ProcessJobs/b8613a84801a46c691ba1681b66ddf56.layout
+/.vs
+Library
+obj
+UserSettings
+*.vsidx
+*.log

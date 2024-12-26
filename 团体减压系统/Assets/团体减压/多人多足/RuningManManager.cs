@@ -21,6 +21,10 @@ public class RuningManManager : MonoBehaviour
 
     [SerializeField]
     private Transform TargetPos;
+
+
+    [SerializeField]
+    private GameObject CongradulationEffect;
     private void Start()
     {
         UserStateDetect.Instance.OnHeartValueChangeEvent += Instance_OnHeartValueChangeEvent;
@@ -29,7 +33,7 @@ public class RuningManManager : MonoBehaviour
 
     private void Update()
     {
-        m_Animator.transform.position = Vector3.MoveTowards(m_Animator.transform.position,TargetPos.position,Time.deltaTime*realSpeed);
+        OnPlayerMove();
     }
     private void Instance_OnUserLenghChangeEvent(List<UserStateDetect.UserData> obj)
     {
@@ -67,5 +71,22 @@ public class RuningManManager : MonoBehaviour
             //31次以上速度慢1/3，往前跑。
         }
         realSpeed= temp_Speed;
+    }
+
+
+    private void OnPlayerMove()
+    {
+        m_Animator.transform.position = Vector3.MoveTowards(m_Animator.transform.position, TargetPos.position, Time.deltaTime * realSpeed);
+
+        float DestinationOffset = Vector3.Distance(m_Animator.transform.position,TargetPos.position);
+        if (!CongradulationEffect.activeSelf)
+        {
+            if (DestinationOffset < 0.1f)
+            {
+                CongradulationEffect.gameObject.SetActive(true);
+                //发送消息
+            }
+        }
+
     }
 }

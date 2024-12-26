@@ -168,11 +168,11 @@ public class UserStateDetect : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.F1))
         {
             users.Add(new UserData(1));
         }
-        if (Input.GetKeyUp(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.F2))
         {
             var user = users.FirstOrDefault(item=>item.userID==1);
             if (user != null) 
