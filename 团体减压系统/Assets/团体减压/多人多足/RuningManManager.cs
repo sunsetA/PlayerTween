@@ -85,8 +85,8 @@ public class RuningManManager : MonoBehaviour
             {
                 CongradulationEffect.gameObject.SetActive(true);
                 //发送消息
+                UserStateDetect.Instance.SendMessage("test message");
             }
         }
-
     }
 }
