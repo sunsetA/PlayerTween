@@ -1417,6 +1417,21 @@ MonoBehaviour:
   realSpeed: 0
   TargetPos: {fileID: 425348845}
   CongradulationEffect: {fileID: 965112374}
+  OnStartEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 234654492}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!4 &233648348 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6348499083403801730, guid: 3c0e842c7cd8aea4aac0f8b611235735, type: 3}
@@ -1471,6 +1486,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 413734, guid: 202d91063c783c140857fa4ccd1866d3, type: 3}
   m_PrefabInstance: {fileID: 233821746}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &234654492 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3393774185104815879, guid: 3c0e842c7cd8aea4aac0f8b611235735, type: 3}
+  m_PrefabInstance: {fileID: 900411503}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &237269225
 PrefabInstance:
@@ -3010,7 +3030,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 425348841}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -38.98, y: 0.0048, z: 40.222}
+  m_LocalPosition: {x: -37.52, y: 0.0048, z: 40.222}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6337,11 +6357,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 612856921987851283, guid: 3c0e842c7cd8aea4aac0f8b611235735, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3319439417727699722, guid: 3c0e842c7cd8aea4aac0f8b611235735, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3393774185104815879, guid: 3c0e842c7cd8aea4aac0f8b611235735, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6003780899930205752, guid: 3c0e842c7cd8aea4aac0f8b611235735, type: 3}
       propertyPath: m_Name

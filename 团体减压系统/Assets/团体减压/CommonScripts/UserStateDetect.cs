@@ -52,7 +52,10 @@ public class UserStateDetect : MonoBehaviour
 
     public string address = "wss://echo.websocket.events";
     WebSocket socket;
-
+    public WebSocket Socket
+    {
+        get { return socket; }
+    }
     private UserData userInfo;
 
 

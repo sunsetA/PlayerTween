@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 /*转为UTF-8*/
 public class RuningManManager : MonoBehaviour
 {
@@ -25,6 +26,9 @@ public class RuningManManager : MonoBehaviour
 
     [SerializeField]
     private GameObject CongradulationEffect;
+
+
+    public UnityEvent OnStartEvent;
     private void Start()
     {
         UserStateDetect.Instance.OnHeartValueChangeEvent += Instance_OnHeartValueChangeEvent;
@@ -44,6 +48,10 @@ public class RuningManManager : MonoBehaviour
         for (int i = 0; i < obj.Count; i++)
         {
             RunnderList[i].SetActive(true);
+        }
+        if (obj.Count>1)
+        {
+            OnStartEvent?.Invoke();
         }
     }
 
@@ -85,7 +93,7 @@ public class RuningManManager : MonoBehaviour
             {
                 CongradulationEffect.gameObject.SetActive(true);
                 //发送消息
-                UserStateDetect.Instance.SendMessage("test message");
+                UserStateDetect.Instance.Socket.SendAsync("test message");
             }
         }
     }
