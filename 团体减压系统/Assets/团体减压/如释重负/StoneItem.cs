@@ -94,7 +94,6 @@ public class StoneItem : MonoBehaviour
         if (ComparedFallDownPoint.position.y<336f)
         {
             subMove = false;
-            Debug.Log("subitems stop folllow stone");
         }
         else
         {
