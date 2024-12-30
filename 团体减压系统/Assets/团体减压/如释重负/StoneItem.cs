@@ -27,7 +27,7 @@ public class StoneItem : MonoBehaviour
         Debug.Log(ComparedFallDownPoint.transform.position.y);
     }
 
-    private void Instance_OnUserLenghChangeEvent(List<UserStateDetect.UserData> obj)
+    private void Instance_OnUserLenghChangeEvent(List<UserStateDetect.UserData> obj, System.Collections.Specialized.NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
     {
         for (int i = 1; i < subItems.Count; i++)
         {

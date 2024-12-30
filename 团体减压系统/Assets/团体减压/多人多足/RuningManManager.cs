@@ -27,19 +27,32 @@ public class RuningManManager : MonoBehaviour
     [SerializeField]
     private GameObject CongradulationEffect;
 
+    [SerializeField]
+    private GameObject tap;
 
+    [Header("游戏开始事件")]
     public UnityEvent OnStartEvent;
+
+
+    private List<UserStateDetect.UserData> userdata;
     private void Start()
     {
         UserStateDetect.Instance.OnHeartValueChangeEvent += Instance_OnHeartValueChangeEvent;
         UserStateDetect.Instance.OnUserLenghChangeEvent += Instance_OnUserLenghChangeEvent;
+
+        UserStateDetect.Instance.OnGameStartEvent += Instance_OnGameStartEvent;
+    }
+
+    private void Instance_OnGameStartEvent()
+    {
+        OnStartEvent?.Invoke();
     }
 
     private void Update()
     {
         OnPlayerMove();
     }
-    private void Instance_OnUserLenghChangeEvent(List<UserStateDetect.UserData> obj)
+    private void Instance_OnUserLenghChangeEvent(List<UserStateDetect.UserData> obj, System.Collections.Specialized.NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
     {
         foreach (var item in RunnderList)
         {
@@ -49,10 +62,8 @@ public class RuningManManager : MonoBehaviour
         {
             RunnderList[i].SetActive(true);
         }
-        if (obj.Count>1)
-        {
-            OnStartEvent?.Invoke();
-        }
+        tap.gameObject.SetActive(obj.Count>1?true:false);
+        userdata = new List<UserStateDetect.UserData>(obj);
     }
 
     private void Instance_OnHeartValueChangeEvent(float realtimeRelaxValue)
