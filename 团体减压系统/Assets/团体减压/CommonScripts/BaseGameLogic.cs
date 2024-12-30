@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 /*转为UTF-8*/
 
@@ -8,7 +9,8 @@ public abstract class BaseGameLogic : MonoBehaviour
     [SerializeField]
     protected List<GameObject>UserModelList;
 
-
+    [SerializeField]
+    protected bool isGameStart = false;
     private void Start()
     {
         UserStateDetect.Instance.OnBrainWaveValueChangeEvent += Instance_OnBrainWaveValueChangeEvent;

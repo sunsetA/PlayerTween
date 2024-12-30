@@ -12,7 +12,7 @@ public class CatchTree : GameLogic
 
     protected override void Instance_OnGameStartEvent()
     {
-
+        base.Instance_OnGameStartEvent();
     }
 
     protected override void Instance_OnUserLenghChangeEvent(List<UserStateDetect.UserData> list, System.Collections.Specialized.NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)

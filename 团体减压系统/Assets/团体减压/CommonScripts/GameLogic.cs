@@ -51,7 +51,7 @@ public class GameLogic : BaseGameLogic
 
     protected override void Instance_OnGameStartEvent()
     {
-        return; 
+        isGameStart = true;
     }
 
 
