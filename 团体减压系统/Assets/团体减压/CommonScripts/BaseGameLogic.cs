@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 /*转为UTF-8*/
 
 public abstract class BaseGameLogic : MonoBehaviour
@@ -9,6 +10,8 @@ public abstract class BaseGameLogic : MonoBehaviour
     [SerializeField]
     protected List<GameObject>UserModelList;
 
+    [SerializeField]
+    protected UnityEvent m_OnGameStartEvent;
     [SerializeField]
     protected bool isGameStart = false;
     private void Start()
@@ -24,23 +27,56 @@ public abstract class BaseGameLogic : MonoBehaviour
         UserStateDetect.Instance.OnGameStartEvent += Instance_OnGameStartEvent;
     }
 
+    /// <summary>
+    /// 竞赛心率变化事件回调
+    /// </summary>
+    /// <param name="list"></param>
     protected abstract void Instance_OnCompetitiveHeartValueChangeEvent(List<UserStateDetect.UserData> list);
 
 
+    /// <summary>
+    /// 竞赛呼吸变化事件回调
+    /// </summary>
+    /// <param name="list"></param>
     protected abstract void Instance_OnCompetitiveBreathValueChangeEvent(List<UserStateDetect.UserData> list);
 
+    /// <summary>
+    /// 对抗脑波变化事件回调
+    /// </summary>
+    /// <param name="list">所有的用户数据</param>
 
     protected abstract void Instance_OnCompetitiveBrainWaveValueChangeEvent(List<UserStateDetect.UserData> list);
 
 
+    /// <summary>
+    /// 用户呼吸变化事件回调
+    /// </summary>
+    /// <param name="obj"></param>
     protected abstract void Instance_OnBreathValueChangeEvent(float obj);
 
+    /// <summary>
+    /// 用户脑波变化事件回调
+    /// </summary>
+    /// <param name="obj"></param>
     protected abstract void Instance_OnBrainWaveValueChangeEvent(float obj);
 
+
+    /// <summary>
+    /// 用户心率变化事件回调
+    /// </summary>
+    /// <param name="obj"></param>
     protected abstract void Instance_OnHeartValueChangeEvent(float obj);
 
+    /// <summary>
+    /// 用户数量变化事件回调
+    /// </summary>
+    /// <param name="list"></param>
+    /// <param name="notifyCollectionChangedEventArgs"></param>
     protected abstract void Instance_OnUserLenghChangeEvent(List<UserStateDetect.UserData> list, System.Collections.Specialized.NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs);
 
+    /// <summary>
+    /// 游戏开始事件回调
+    /// </summary>
     protected abstract void Instance_OnGameStartEvent();
 
 

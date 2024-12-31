@@ -52,6 +52,7 @@ public class GameLogic : BaseGameLogic
     protected override void Instance_OnGameStartEvent()
     {
         isGameStart = true;
+        m_OnGameStartEvent?.Invoke();
     }
 
 
