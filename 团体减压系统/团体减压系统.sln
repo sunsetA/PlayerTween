@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityWebSocket.Runtime", "U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XCharts.Examples", "XCharts.Examples.csproj", "{561CA138-D227-A0DE-99CF-5D66256C9891}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-firstpass", "Assembly-CSharp-firstpass.csproj", "{8E768491-5441-8FAA-0F7D-BB0E75CE3939}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XCharts.Editor", "XCharts.Editor.csproj", "{8E4002C6-4260-F01B-3AF0-1C36191CF877}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{F51A3745-9459-0998-A88E-097EA1E901C2}"
@@ -37,6 +39,10 @@ Global
 		{561CA138-D227-A0DE-99CF-5D66256C9891}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{561CA138-D227-A0DE-99CF-5D66256C9891}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{561CA138-D227-A0DE-99CF-5D66256C9891}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E768491-5441-8FAA-0F7D-BB0E75CE3939}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E768491-5441-8FAA-0F7D-BB0E75CE3939}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E768491-5441-8FAA-0F7D-BB0E75CE3939}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E768491-5441-8FAA-0F7D-BB0E75CE3939}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8E4002C6-4260-F01B-3AF0-1C36191CF877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8E4002C6-4260-F01B-3AF0-1C36191CF877}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E4002C6-4260-F01B-3AF0-1C36191CF877}.Release|Any CPU.ActiveCfg = Release|Any CPU

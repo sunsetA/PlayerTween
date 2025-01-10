@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using UnityEditor.Animations;
+
 using UnityEngine;
 /*转为UTF-8*/
 public class CatchTree : GameLogic
@@ -14,7 +14,7 @@ public class CatchTree : GameLogic
     private void Start()
     {
         m_Animator = UserModelList[0].GetComponent<Animator>();
-        //m_Animator.GetBehaviour<jumpControl>().OnFailingDownEvent += CatchTree_OnJumpDown;
+        //m_Animator.GetBehaviour<jumpControl>().OnFailingDownEvent += CatchTree_OnJump;
         //m_Animator.GetBehaviour<jumpControl>().OnDownEvent += CatchTree_OnDownEvent; ;
     }
 
@@ -31,7 +31,7 @@ public class CatchTree : GameLogic
         Apple.SetActive(false);
     }
 
-    private void CatchTree_OnJumpDown()
+    private void CatchTree_OnJump()
     {
         Apple.SetActive(true);
     }
@@ -54,9 +54,9 @@ public class CatchTree : GameLogic
         base.Instance_OnGameStartEvent();
     }
 
-    protected override void Instance_OnUserLenghChangeEvent(List<UserStateDetect.UserData> list, System.Collections.Specialized.NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
+    protected override void Instance_OnUserLenghChangeEvent(List<UserStateDetect.UserData> list)
     {
-        base.Instance_OnUserLenghChangeEvent(list, notifyCollectionChangedEventArgs);
+        base.Instance_OnUserLenghChangeEvent(list);
     }
     public void Jump()
     {

@@ -10,10 +10,14 @@ public abstract class BaseGameLogic : MonoBehaviour
     [SerializeField]
     protected List<GameObject>UserModelList;
 
+    /// <summary>
+    /// 服务端在所有用户已经做好准备，点击的游戏开始事件
+    /// </summary>
     [SerializeField]
     protected UnityEvent m_OnGameStartEvent;
     [SerializeField]
     protected bool isGameStart = false;
+
     private void Start()
     {
         UserStateDetect.Instance.OnBrainWaveValueChangeEvent += Instance_OnBrainWaveValueChangeEvent;
@@ -72,7 +76,7 @@ public abstract class BaseGameLogic : MonoBehaviour
     /// </summary>
     /// <param name="list"></param>
     /// <param name="notifyCollectionChangedEventArgs"></param>
-    protected abstract void Instance_OnUserLenghChangeEvent(List<UserStateDetect.UserData> list, System.Collections.Specialized.NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs);
+    protected abstract void Instance_OnUserLenghChangeEvent(List<UserStateDetect.UserData> list);
 
     /// <summary>
     /// 游戏开始事件回调

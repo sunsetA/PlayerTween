@@ -52,7 +52,7 @@ public class RuningManManager : MonoBehaviour
     {
         OnPlayerMove();
     }
-    private void Instance_OnUserLenghChangeEvent(List<UserStateDetect.UserData> obj, System.Collections.Specialized.NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
+    private void Instance_OnUserLenghChangeEvent(List<UserStateDetect.UserData> obj)
     {
         foreach (var item in RunnderList)
         {

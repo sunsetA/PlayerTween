@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using UnityEditor.Animations;
 using UnityEngine;
 /*转为UTF-8*/
 public class StrengthChallange : GameLogic
@@ -31,12 +30,11 @@ public class StrengthChallange : GameLogic
     protected override void Instance_OnGameStartEvent()
     {
         base.Instance_OnGameStartEvent();
-
     }
 
-    protected override void Instance_OnUserLenghChangeEvent(List<UserStateDetect.UserData> list, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
+    protected override void Instance_OnUserLenghChangeEvent(List<UserStateDetect.UserData> list)
     {
-        base.Instance_OnUserLenghChangeEvent(list, notifyCollectionChangedEventArgs);
+        base.Instance_OnUserLenghChangeEvent(list);
     }
 
 

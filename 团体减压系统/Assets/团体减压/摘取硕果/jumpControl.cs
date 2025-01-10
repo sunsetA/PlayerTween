@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Animations;
 using UnityEngine;
 /*转为UTF-8*/
 public class jumpControl : StateMachineBehaviour
@@ -45,11 +43,11 @@ public class jumpControl : StateMachineBehaviour
             float currentHeight =(addHeight+jumpHeight)- addHeight * ((process - 0.55f) / (0.8f - 0.55f));
             Vector3 currentPos = animator.transform.position;
             animator.transform.position = new Vector3(currentPos.x, currentHeight, currentPos.z);
-
             OnFailingDownEvent?.Invoke();
         }
         //else if(process>0.86f)
         //{
+
         //    OnDownEvent?.Invoke();
         //    //animator.speed = 0.3f;
         //}

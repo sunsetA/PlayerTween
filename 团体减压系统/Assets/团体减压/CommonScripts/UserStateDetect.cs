@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityWebSocket;
@@ -18,13 +19,26 @@ public enum TrainType
 /*转为UTF-8*/
 public class UserStateDetect : MonoBehaviour
 {
-    public static UserStateDetect Instance;
-
-    public TrainType trainType = TrainType.Collaborate;
     public UserStateDetect()
     {
         Instance = this;
     }
+
+    public static UserStateDetect Instance;
+
+    public TrainType trainType = TrainType.Collaborate;
+
+
+    [Header("游戏是否已经开始")]
+    private bool isPlaying;
+
+
+    /// <summary>
+    /// 获取url从问号开始的地址到结束
+    /// </summary>
+    /// <returns></returns>
+    [DllImport("__Internal")]
+    private static extern string StringReturnValueFunction();  
 
 
 
@@ -63,7 +77,7 @@ public class UserStateDetect : MonoBehaviour
     /// <summary>
     /// 用户数量改变事件
     /// </summary>
-    public event Action<List<UserData>, System.Collections.Specialized.NotifyCollectionChangedEventArgs> OnUserLenghChangeEvent;
+    public event Action<List<UserData>> OnUserLenghChangeEvent;
 
     /// <summary>
     /// 游戏开始事件
@@ -71,7 +85,9 @@ public class UserStateDetect : MonoBehaviour
     public event Action OnGameStartEvent;
 
     public string address = "wss://echo.websocket.events";
+
     WebSocket socket;
+
     public WebSocket Socket
     {
         get { return socket; }
@@ -81,18 +97,22 @@ public class UserStateDetect : MonoBehaviour
 
     public ObservableCollection<UserData> users = new ObservableCollection<UserData>();
 
+    private Dictionary<int, UserData> userListDic = new Dictionary<int, UserData>();
     private void Awake()
     {
-        users.CollectionChanged += Users_CollectionChanged;
+        //先获取用户数据
+        GetUserInfo();
     }
 
-    private void Users_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-    {
-        OnUserLenghChangeEvent?.Invoke(((ObservableCollection<UserData>)sender).ToList(),e);
-    }
+    //private void Users_CollectionChanged(object sender)
+    //{
+    //    Debug.Log("length changed");
+    //    OnUserLenghChangeEvent?.Invoke(((ObservableCollection<UserData>)sender).ToList());
+    //}
 
     private void Start()
     {
+
         // 创建实例
         socket = new WebSocket(address);
 
@@ -103,6 +123,19 @@ public class UserStateDetect : MonoBehaviour
 
         socket.ConnectAsync();
 
+
+
+    }
+
+    private void GetUserInfo()
+    {
+        //TODO:从url中解析出用户id   
+        //*1.此处url是从问号开始的
+        //*2.暂定第一个就是用户id
+        var url= StringReturnValueFunction();
+        var userID = url.Split('=')[1];
+        userInfo = new UserData(int.Parse(userID));
+        users.Add(userInfo);
     }
 
 
@@ -120,22 +153,24 @@ public class UserStateDetect : MonoBehaviour
         //2.广播更新心率、脑波等数据
 
         //UserData LoginData = e.Data;
-        UserData LoginData = new UserData(2); ;
+        List<UserData> userDatas= JsonUtility.FromJson<List<UserData>>(e.Data);
 
-        //1.如果是上线消息
-        if (userInfo!=null)
-        {
-            if (!users.Contains(LoginData))
-            {
-                users.Add(LoginData);
-            }
-        }
-        else
-        {
-            userInfo = LoginData;
-            users.Add(LoginData);
-            //此处没有将userinfo加入到list中，因为下一帧会更新所有用户数据
-        }
+        //UserData LoginData = new UserData(2); ;
+
+        ////1.如果是上线消息
+        //if (userInfo!=null)
+        //{
+        //    if (!users.Contains(LoginData))
+        //    {
+        //        users.Add(LoginData);
+        //    }
+        //}
+        //else
+        //{
+        //    userInfo = LoginData;
+        //    users.Add(LoginData);
+        //    //此处没有将userinfo加入到list中，因为下一帧会更新所有用户数据
+        //}
         //2.如果是下线消息
         //if (true)
         //{
@@ -155,9 +190,7 @@ public class UserStateDetect : MonoBehaviour
         ///如果是合作，传平均值
         if (trainType==TrainType.Collaborate)
         {
-            OnHeartValueChangeEvent?.Invoke(20);
-            OnBrainWaveValueChangeEvent?.Invoke(20);
-            OnBreathValueChangeEvent?.Invoke(20);
+
         }
         else
         {
@@ -180,100 +213,101 @@ public class UserStateDetect : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Q))
-        {
-            OnBrainWaveValueChangeEvent?.Invoke(19);
-            OnBreathValueChangeEvent?.Invoke(19);
-            OnHeartValueChangeEvent?.Invoke(19); 
-        }
-        else if (Input.GetKey(KeyCode.W))
-        {
-            OnBrainWaveValueChangeEvent?.Invoke(34);
-            OnBreathValueChangeEvent?.Invoke(34);
-            OnHeartValueChangeEvent?.Invoke(34);
-        }
-        else if (Input.GetKey(KeyCode.E))
-        {
-            OnBrainWaveValueChangeEvent?.Invoke(90);
-            OnBreathValueChangeEvent?.Invoke(90);
-            OnHeartValueChangeEvent?.Invoke(90);
-        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             socket.SendAsync("delay");
         }
 
 
-        if (Input.GetKeyDown(KeyCode.F1))
+
+    }
+
+
+    /// <summary>
+    /// 接收到数据时的数据解析
+    /// </summary>
+    private void OnMessageAnalysic(MessageEventArgs e)
+    {
+        //登录消息
+        if (true)
         {
-            users.Add(new UserData(1));
-        }
-        if (Input.GetKeyDown(KeyCode.F2))
-        {
-            var user = users.FirstOrDefault(item=>item.userID==1);
-            if (user != null) 
+            var NewUser=new UserData(1);
+            if (userListDic.ContainsKey(NewUser.userID))
             {
-                users.Remove(user);
+                userListDic.Add(NewUser.userID, NewUser);
+                //并响应新增事件
+                //需要沟通确定是否在登录时，返回所有用户数据；或者是在下一次广播生理数据时，返回所有用户数据
+                OnUserLenghChangeEvent?.Invoke(userListDic.Values.ToList());
+            }
+            else
+            {
+                Debug.LogError("尝试添加一个已缓存的用户");
             }
         }
-
-
-        if (Input.GetKeyDown(KeyCode.F3))
+        //退出消息
+        if (true)
         {
-            users.Add(new UserData(3));
-        }
-        if (Input.GetKeyDown(KeyCode.F4))
-        {
-            var user = users.FirstOrDefault(item => item.userID == 3);
-            if (user != null)
+            var oldUser = new UserData(2);
+            if (userListDic.ContainsKey(oldUser.userID))
             {
-                users.Remove(user);
+                userListDic.Remove(oldUser.userID);
+                //并响应移除事件
+                OnUserLenghChangeEvent?.Invoke(userListDic.Values.ToList());
+            }
+            else
+            {
+                Debug.LogError("尝试删除一个未缓存的用户");
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.F5))
+        //广播数据
+        if (true)
         {
-            users.Add(new UserData(4));
-        }
-        if (Input.GetKeyDown(KeyCode.F6))
-        {
-            var user = users.FirstOrDefault(item => item.userID == 4);
-            if (user != null)
+            List<UserData> userDatas = JsonUtility.FromJson<List<UserData>>(e.Data);
+            users=new ObservableCollection<UserData>(userDatas);
+            //如果游戏已经开始，更新数据
+            if (isPlaying)
             {
-                users.Remove(user);
+                //如果是合作，传平均值
+                if (true)
+                {
+                    OnHeartValueChangeEvent?.Invoke((float)userDatas.Average(item => item.heartRate));
+                    OnBrainWaveValueChangeEvent?.Invoke((float)userDatas.Average(item => item.brainWave));
+                    OnBreathValueChangeEvent?.Invoke((float)userDatas.Average(item => item.breathRate));
+                }
+                else
+                {
+                    OnCompetitiveHeartValueChangeEvent?.Invoke(userDatas);
+                    OnCompetitiveBrainWaveValueChangeEvent?.Invoke(userDatas);
+                    OnCompetitiveBreathValueChangeEvent?.Invoke(userDatas);
+                }
             }
-        }
-
-
-        if (Input.GetKeyDown(KeyCode.F7))
-        {
-            users.Add(new UserData(5));
-        }
-        if (Input.GetKeyDown(KeyCode.F8))
-        {
-            var user = users.FirstOrDefault(item => item.userID == 5);
-            if (user != null)
+            //如果游戏未开始，根据所有的用户数据更新电脑本地的所有用户数据
+            //这样不好，但是暂时没有更好的办法
+            else
             {
-                users.Remove(user);
+
             }
+
         }
 
-
-
-
-
-
-        if (Input.GetKeyDown(KeyCode.Escape))
+        //游戏开始事件
+        if (true)
         {
-            OnGameStartEvent?.Invoke();
+            isPlaying = true;
         }
     }
+
 
     public class UserData
     {
         public int userID;
 
-
+        public string gender;
+        public float heartRate;
+        public float brainWave;
+        public float breathRate;
+        
         public UserData(int id)
         {
             userID = id;

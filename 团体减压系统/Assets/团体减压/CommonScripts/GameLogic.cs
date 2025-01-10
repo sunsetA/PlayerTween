@@ -33,7 +33,7 @@ public class GameLogic : BaseGameLogic
         return;
     }
 
-    protected override void Instance_OnUserLenghChangeEvent(List<UserStateDetect.UserData> list, System.Collections.Specialized.NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
+    protected override void Instance_OnUserLenghChangeEvent(List<UserStateDetect.UserData> list)
     {
         for (int i = 0; i < UserModelList.Count; i++)
         {
