@@ -112,19 +112,13 @@ public class UserStateDetect : MonoBehaviour
 
     private void Start()
     {
-
         // 创建实例
         socket = new WebSocket(address);
-
         socket.OnOpen += Socket_OnOpen;
         socket.OnClose += Socket_OnClose;
         socket.OnMessage += Socket_OnMessage;
         socket.OnError += Socket_OnError;
-
         socket.ConnectAsync();
-
-
-
     }
 
     private void GetUserInfo()
@@ -274,6 +268,7 @@ public class UserStateDetect : MonoBehaviour
                     OnHeartValueChangeEvent?.Invoke((float)userDatas.Average(item => item.heartRate));
                     OnBrainWaveValueChangeEvent?.Invoke((float)userDatas.Average(item => item.brainWave));
                     OnBreathValueChangeEvent?.Invoke((float)userDatas.Average(item => item.breathRate));
+                    //OnBreathValueChangeEvent?.Invoke((float)userDatas.Average(item=>item.brainWave));
                 }
                 else
                 {

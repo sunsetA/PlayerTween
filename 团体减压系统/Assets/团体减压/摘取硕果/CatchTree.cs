@@ -58,6 +58,7 @@ public class CatchTree : GameLogic
     {
         base.Instance_OnUserLenghChangeEvent(list);
     }
+
     public void Jump()
     {
         m_Animator.Play("JumpPick");

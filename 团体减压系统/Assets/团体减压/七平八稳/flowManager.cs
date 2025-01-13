@@ -16,7 +16,5 @@ public class flowManager : MonoBehaviour
             float dis=Vector3.Distance(TableLegs[i].position, TablePoint[i].position);
             TableLegs[i].localScale=new Vector3(0.2f,0.2f,dis-0.1f);
         }
-
-
     }
 }

@@ -21,10 +21,7 @@ public class StrengthChallange : GameLogic
 
         float averageHeartOne = 86;
         float averageHeartTwo = 110;
-
         mainObject.position+= mainObject.forward*(averageHeartOne-averageHeartTwo)/100f*StandardSpeed*Time.deltaTime;
-
-
     }
 
     protected override void Instance_OnGameStartEvent()
