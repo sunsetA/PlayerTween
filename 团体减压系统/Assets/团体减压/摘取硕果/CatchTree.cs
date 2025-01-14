@@ -11,12 +11,15 @@ public class CatchTree : GameLogic
     private Animator m_Animator;
 
     public GameObject Apple;
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         m_Animator = UserModelList[0].GetComponent<Animator>();
         //m_Animator.GetBehaviour<jumpControl>().OnFailingDownEvent += CatchTree_OnJump;
         //m_Animator.GetBehaviour<jumpControl>().OnDownEvent += CatchTree_OnDownEvent; ;
     }
+
+    
 
 
     private void Update()

@@ -92,7 +92,7 @@ public class UserStateDetect : MonoBehaviour
     {
         get { return socket; }
     }
-    private UserData userInfo;
+    public UserData userInfo;
 
 
     public ObservableCollection<UserData> users = new ObservableCollection<UserData>();
@@ -227,7 +227,7 @@ public class UserStateDetect : MonoBehaviour
         if (true)
         {
             var NewUser=new UserData(1);
-            if (userListDic.ContainsKey(NewUser.userID))
+            if (!userListDic.ContainsKey(NewUser.userID))
             {
                 userListDic.Add(NewUser.userID, NewUser);
                 //并响应新增事件
@@ -238,6 +238,13 @@ public class UserStateDetect : MonoBehaviour
             {
                 Debug.LogError("尝试添加一个已缓存的用户");
             }
+
+            /* 注意这里的数据格式
+            userListDic=JsonUtility.FromJson<Dictionary<int, UserData>>(e.Data);
+
+            OnUserLenghChangeEvent?.Invoke(userListDic.Values.ToList());
+            */
+            
         }
         //退出消息
         if (true)

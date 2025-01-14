@@ -10,6 +10,7 @@ public abstract class BaseGameLogic : MonoBehaviour
     [SerializeField]
     protected List<GameObject>UserModelList;
 
+    protected List<Animator> Animators = new List<Animator>();
     /// <summary>
     /// 服务端在所有用户已经做好准备，点击的游戏开始事件
     /// </summary>
@@ -18,7 +19,7 @@ public abstract class BaseGameLogic : MonoBehaviour
     [SerializeField]
     protected bool isGameStart = false;
 
-    private void Start()
+    public virtual void Start()
     {
         UserStateDetect.Instance.OnBrainWaveValueChangeEvent += Instance_OnBrainWaveValueChangeEvent;
         UserStateDetect.Instance.OnHeartValueChangeEvent += Instance_OnHeartValueChangeEvent;
@@ -29,6 +30,11 @@ public abstract class BaseGameLogic : MonoBehaviour
         UserStateDetect.Instance.OnCompetitiveBreathValueChangeEvent += Instance_OnCompetitiveBreathValueChangeEvent;
         UserStateDetect.Instance.OnCompetitiveHeartValueChangeEvent += Instance_OnCompetitiveHeartValueChangeEvent;
         UserStateDetect.Instance.OnGameStartEvent += Instance_OnGameStartEvent;
+
+        foreach (var item in UserModelList)
+        {
+            Animators.Add(item.GetComponent<Animator>());
+        }
     }
 
     /// <summary>

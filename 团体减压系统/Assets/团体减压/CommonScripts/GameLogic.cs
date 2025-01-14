@@ -6,31 +6,31 @@ public class GameLogic : BaseGameLogic
 {
     protected override void Instance_OnBrainWaveValueChangeEvent(float obj)
     {
-        return;
+
     }
 
     protected override void Instance_OnBreathValueChangeEvent(float obj)
     {
-        return;
+
     }
     protected override void Instance_OnHeartValueChangeEvent(float obj)
     {
-        return;
+
     }
 
     protected override void Instance_OnCompetitiveBrainWaveValueChangeEvent(List<UserStateDetect.UserData> list)
     {
-        return; 
+
     }
 
     protected override void Instance_OnCompetitiveBreathValueChangeEvent(List<UserStateDetect.UserData> list)
     {
-        return; 
+
     }
 
     protected override void Instance_OnCompetitiveHeartValueChangeEvent(List<UserStateDetect.UserData> list)
     {
-        return;
+
     }
 
     protected override void Instance_OnUserLenghChangeEvent(List<UserStateDetect.UserData> list)
