@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 /*转为UTF-8*/
 public class StoneItem : MonoBehaviour
@@ -56,8 +57,9 @@ public class StoneItem : MonoBehaviour
     }
 
 
-    private void OnRelaxValueChanged(float relaxValue)
+    private void OnRelaxValueChanged(List<UserStateDetect.UserData> _relaxValue)
     {
+        float relaxValue = _relaxValue.Average(x => x.brainWave);
         float speedMultiply = 0;
         if (relaxValue<=20)
         {

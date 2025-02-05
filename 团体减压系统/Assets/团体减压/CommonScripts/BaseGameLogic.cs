@@ -62,20 +62,20 @@ public abstract class BaseGameLogic : MonoBehaviour
     /// 用户呼吸变化事件回调
     /// </summary>
     /// <param name="obj"></param>
-    protected abstract void Instance_OnBreathValueChangeEvent(float obj);
+    protected abstract void Instance_OnBreathValueChangeEvent(List<UserStateDetect.UserData> obj);
 
     /// <summary>
     /// 用户脑波变化事件回调
     /// </summary>
     /// <param name="obj"></param>
-    protected abstract void Instance_OnBrainWaveValueChangeEvent(float obj);
+    protected abstract void Instance_OnBrainWaveValueChangeEvent(List<UserStateDetect.UserData> obj);
 
 
     /// <summary>
     /// 用户心率变化事件回调
     /// </summary>
     /// <param name="obj"></param>
-    protected abstract void Instance_OnHeartValueChangeEvent(float obj);
+    protected abstract void Instance_OnHeartValueChangeEvent(List<UserStateDetect.UserData> obj);
 
     /// <summary>
     /// 用户数量变化事件回调

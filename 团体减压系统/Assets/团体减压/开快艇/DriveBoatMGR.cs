@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 /*转为UTF-8*/
 public class DriveBoatMGR : MonoBehaviour
@@ -32,8 +33,9 @@ public class DriveBoatMGR : MonoBehaviour
     }
 
 
-    private void Instance_OnRelaxValueChangeEvent(float realtimeRelaxValue)
+    private void Instance_OnRelaxValueChangeEvent(List<UserStateDetect.UserData> _realtimeRelaxValue)
     {
+        float realtimeRelaxValue= _realtimeRelaxValue.Average(x => x.brainWave);
         float temp_Speed = 0;
         if (realtimeRelaxValue <= 20)
         {

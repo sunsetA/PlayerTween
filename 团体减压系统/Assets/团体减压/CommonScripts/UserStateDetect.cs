@@ -46,7 +46,7 @@ public class UserStateDetect : MonoBehaviour
     /// <summary>
     /// 团体合作脑波数据变化事件
     /// </summary>
-    public event Action<float> OnBrainWaveValueChangeEvent;
+    public event Action<List<UserData>> OnBrainWaveValueChangeEvent;
 
     /// <summary>
     /// 团体竞赛脑波数据变化事件
@@ -57,7 +57,7 @@ public class UserStateDetect : MonoBehaviour
     /// <summary>
     /// 团体合作呼吸数据变化事件
     /// </summary>
-    public event Action<float> OnBreathValueChangeEvent;
+    public event Action<List<UserData>> OnBreathValueChangeEvent;
 
     /// <summary>
     /// 团体竞赛呼吸数据变化事件
@@ -67,7 +67,7 @@ public class UserStateDetect : MonoBehaviour
     /// <summary>
     /// 团体合作心率变化事件
     /// </summary>
-    public event Action<float> OnHeartValueChangeEvent;
+    public event Action<List<UserData>> OnHeartValueChangeEvent;
 
     /// <summary>
     /// 团体竞赛心率数据变化事件
@@ -272,9 +272,9 @@ public class UserStateDetect : MonoBehaviour
                 //如果是合作，传平均值
                 if (true)
                 {
-                    OnHeartValueChangeEvent?.Invoke((float)userDatas.Average(item => item.heartRate));
-                    OnBrainWaveValueChangeEvent?.Invoke((float)userDatas.Average(item => item.brainWave));
-                    OnBreathValueChangeEvent?.Invoke((float)userDatas.Average(item => item.breathRate));
+                    OnHeartValueChangeEvent?.Invoke(userDatas);
+                    OnBrainWaveValueChangeEvent?.Invoke(userDatas);
+                    OnBreathValueChangeEvent?.Invoke(userDatas);
                     //OnBreathValueChangeEvent?.Invoke((float)userDatas.Average(item=>item.brainWave));
                 }
                 else

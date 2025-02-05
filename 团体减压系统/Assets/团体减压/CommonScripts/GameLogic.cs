@@ -4,16 +4,16 @@ using UnityEngine;
 /*转为UTF-8*/
 public class GameLogic : BaseGameLogic
 {
-    protected override void Instance_OnBrainWaveValueChangeEvent(float obj)
+    protected override void Instance_OnBrainWaveValueChangeEvent(List<UserStateDetect.UserData> obj)
     {
 
     }
 
-    protected override void Instance_OnBreathValueChangeEvent(float obj)
+    protected override void Instance_OnBreathValueChangeEvent(List<UserStateDetect.UserData> obj)
     {
 
     }
-    protected override void Instance_OnHeartValueChangeEvent(float obj)
+    protected override void Instance_OnHeartValueChangeEvent(List<UserStateDetect.UserData> obj)
     {
 
     }

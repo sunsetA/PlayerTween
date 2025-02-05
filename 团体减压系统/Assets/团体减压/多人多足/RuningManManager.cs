@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 /*转为UTF-8*/
@@ -66,8 +67,9 @@ public class RuningManManager : MonoBehaviour
         userdata = new List<UserStateDetect.UserData>(obj);
     }
 
-    private void Instance_OnHeartValueChangeEvent(float realtimeRelaxValue)
+    private void Instance_OnHeartValueChangeEvent(List<UserStateDetect.UserData> _realtimeRelaxValue)
     {
+        float realtimeRelaxValue = _realtimeRelaxValue.Average(item=>item.heartRate);
         float temp_Speed = 0;
         if (realtimeRelaxValue<10)
         {
@@ -96,7 +98,6 @@ public class RuningManManager : MonoBehaviour
     private void OnPlayerMove()
     {
         m_Animator.transform.position = Vector3.MoveTowards(m_Animator.transform.position, TargetPos.position, Time.deltaTime * realSpeed);
-
         float DestinationOffset = Vector3.Distance(m_Animator.transform.position,TargetPos.position);
         if (!CongradulationEffect.activeSelf)
         {
