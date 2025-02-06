@@ -54,7 +54,4 @@ public class GameLogic : BaseGameLogic
         isGameStart = true;
         m_OnGameStartEvent?.Invoke();
     }
-
-
-
 }

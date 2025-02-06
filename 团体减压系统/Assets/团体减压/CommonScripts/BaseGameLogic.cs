@@ -30,7 +30,6 @@ public abstract class BaseGameLogic : MonoBehaviour
         UserStateDetect.Instance.OnCompetitiveBreathValueChangeEvent += Instance_OnCompetitiveBreathValueChangeEvent;
         UserStateDetect.Instance.OnCompetitiveHeartValueChangeEvent += Instance_OnCompetitiveHeartValueChangeEvent;
         UserStateDetect.Instance.OnGameStartEvent += Instance_OnGameStartEvent;
-
         foreach (var item in UserModelList)
         {
             Animators.Add(item.GetComponent<Animator>());
