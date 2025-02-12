@@ -38,10 +38,7 @@ public class UnderWaterFog : MonoBehaviour
 
 		bool isSupported = true;
 
-		if (!SystemInfo.supportsImageEffects)
-		{
-			return false;
-		}
+
 
 		if (!SystemInfo.SupportsRenderTextureFormat (RenderTextureFormat.Depth))
 		{

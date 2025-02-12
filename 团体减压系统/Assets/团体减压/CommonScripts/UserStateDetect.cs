@@ -5,8 +5,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityWebSocket;
+using static UserStateDetect;
 
 [Serializable]
 public enum TrainType
@@ -98,6 +100,11 @@ public class UserStateDetect : MonoBehaviour
     public ObservableCollection<UserData> users = new ObservableCollection<UserData>();
 
     private Dictionary<int, UserData> userListDic = new Dictionary<int, UserData>();
+
+    /// <summary>
+    /// 是否为测试模式
+    /// </summary>
+    public bool isTest;
     private void Awake()
     {
         //先获取用户数据
@@ -112,6 +119,7 @@ public class UserStateDetect : MonoBehaviour
 
     private void Start()
     {
+
         // 创建实例
         socket = new WebSocket(address);
         socket.OnOpen += Socket_OnOpen;
@@ -126,10 +134,19 @@ public class UserStateDetect : MonoBehaviour
         //TODO:从url中解析出用户id   
         //*1.此处url是从问号开始的
         //*2.暂定第一个就是用户id
-        var url= StringReturnValueFunction();
-        var userID = url.Split('=')[1];
-        userInfo = new UserData(int.Parse(userID));
-        users.Add(userInfo);
+        try
+        {
+            var url = StringReturnValueFunction();
+            var userID = url.Split('=')[1];
+            userInfo = new UserData(int.Parse(userID));
+            users.Add(userInfo);
+        }
+        catch (Exception)
+        {
+
+            Debug.LogWarning("check url");
+        }
+
     }
 
 
@@ -213,8 +230,38 @@ public class UserStateDetect : MonoBehaviour
             socket.SendAsync("delay");
         }
 
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            isTest = true;
 
+            StartCoroutine(FakeUpdate());
+        }
 
+    }
+
+    private IEnumerator FakeUpdate()
+    {
+        while (isTest)
+        {
+            yield return new WaitForSeconds(1);
+            List<UserData> obj = new List<UserData>();
+
+            UserData userData = new UserData(1);
+            userData.breathRate = UnityEngine.Random.Range(60, 80);
+            userData.heartRate = UnityEngine.Random.Range(60, 80);
+            userData.brainWave = UnityEngine.Random.Range(60, 80);
+            obj.Add(userData);
+            userInfo = userData;
+            isPlaying = true;
+            OnGameStartEvent?.Invoke();
+            OnHeartValueChangeEvent?.Invoke(obj);
+            OnBrainWaveValueChangeEvent?.Invoke(obj);
+            OnBreathValueChangeEvent?.Invoke(obj);
+            OnCompetitiveHeartValueChangeEvent?.Invoke(obj);
+            OnCompetitiveBrainWaveValueChangeEvent?.Invoke(obj);
+            OnCompetitiveBreathValueChangeEvent?.Invoke(obj);
+
+        }
     }
 
 

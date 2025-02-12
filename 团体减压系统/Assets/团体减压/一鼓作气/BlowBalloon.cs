@@ -16,7 +16,7 @@ public class BlowBalloon : GameLogic
     [SerializeField]
     private SkinnedMeshRenderer _balloonMeshRender;
   
-    private int currentBalloonsIndex = -1;
+    private int currentBalloonsIndex = 0;
 
     private int totalBallsCount = 0;
     public override void Start()
@@ -44,6 +44,7 @@ public class BlowBalloon : GameLogic
         {
             yield return new WaitForSeconds(1);
             isGameStart = true;
+            EmptyBalloons[currentBalloonsIndex].gameObject.SetActive(false);
             List<UserStateDetect.UserData> obj = new List<UserStateDetect.UserData>();
 
             UserStateDetect.UserData userData = new UserStateDetect.UserData(1);
@@ -84,8 +85,9 @@ public class BlowBalloon : GameLogic
             //直接设置气球大小为0，并且在桌面上放置一个完整的气球
             _balloonMeshRender.SetBlendShapeWeight(0, 0);
             FullyBalloons[currentBalloonsIndex].gameObject.SetActive(true);
-            EmptyBalloons[currentBalloonsIndex].gameObject.SetActive(false);
+
             currentBalloonsIndex++;
+            EmptyBalloons[currentBalloonsIndex].gameObject.SetActive(false);
         }
     }
 
