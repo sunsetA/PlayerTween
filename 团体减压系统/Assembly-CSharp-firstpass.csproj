@@ -749,6 +749,9 @@
     <Reference Include="Unity.EditorCoroutines.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.EditorCoroutines.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Mathematics">
+      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VisualScripting.Shared.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Shared.Editor.dll</HintPath>
     </Reference>
@@ -760,6 +763,9 @@
     </Reference>
     <Reference Include="Unity.AI.Navigation">
       <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mathematics.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.AI.Navigation.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Editor.dll</HintPath>
@@ -790,6 +796,10 @@
     <ProjectReference Include="UnityWebSocket.Runtime.csproj">
       <Project>{2F8F7BC0-1722-63DC-7168-03818821153E}</Project>
       <Name>UnityWebSocket.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="RopeMinikit.csproj">
+      <Project>{51610D25-A269-994B-0EF5-D0C31793A02F}</Project>
+      <Name>RopeMinikit</Name>
     </ProjectReference>
     <ProjectReference Include="XCharts.Runtime.csproj">
       <Project>{445FD0F3-991B-B0C5-427C-37D74DE09D67}</Project>

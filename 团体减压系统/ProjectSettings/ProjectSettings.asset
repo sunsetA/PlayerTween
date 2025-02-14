@@ -718,7 +718,11 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 1
   webGLPowerPreference: 2
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Android: OBI_ONI_SUPPORTED
+    Standalone: OBI_ONI_SUPPORTED
+    WebGL: 
+    iPhone: OBI_ONI_SUPPORTED
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

@@ -13,8 +13,6 @@ public class HighSpaceWalk : GameLogic
         base.Start();
     }
 
-
-
     protected override void Instance_OnCompetitiveBrainWaveValueChangeEvent(List<UserStateDetect.UserData> list)
     {
         if (!isGameStart)
@@ -78,7 +76,7 @@ public class HighSpaceWalk : GameLogic
         }
         else
         {
-            //果绿，比正常速度*2倍的速度 
+            //果绿，比正常速度*2倍的速度
             _speed = 2.0f;
         }
         return _speed;

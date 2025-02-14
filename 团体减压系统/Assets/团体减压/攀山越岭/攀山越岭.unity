@@ -1874,6 +1874,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trainType: 0
   address: wss://echo.websocket.events
+  isTest: 0
 --- !u!4 &1068124680
 Transform:
   m_ObjectHideFlags: 0
@@ -3230,12 +3231,12 @@ Terrain:
   m_HeightmapPixelError: 10
   m_SplatMapDistance: 2000
   m_HeightmapMaximumLOD: 0
-  m_ShadowCastingMode: 2
+  m_ShadowCastingMode: 0
   m_DrawHeightmap: 1
   m_DrawInstanced: 0
   m_DrawTreesAndFoliage: 1
   m_StaticShadowCaster: 0
-  m_ReflectionProbeUsage: 1
+  m_ReflectionProbeUsage: 0
   m_MaterialTemplate: {fileID: 2100000, guid: b8f10ab1075ca4d4fac1689794458b99, type: 2}
   m_BakeLightProbesForTrees: 0
   m_PreserveTreePrototypeLayers: 0
