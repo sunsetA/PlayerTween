@@ -8,11 +8,28 @@ public class HighSpaceWalk : GameLogic
 
     [SerializeField]
     private float multipleSpeed = 0f;
+
+    public Transform TargetPoint;
+    private Vector3 TargetPointPosition;
     public override void Start()
     {
         base.Start();
+        TargetPointPosition = TargetPoint.position;
     }
 
+
+    private void Update()
+    {
+        if (isGameStart)
+        {
+            playerAnimator.transform.position = Vector3.MoveTowards(playerAnimator.transform.position, TargetPointPosition, multipleSpeed * Time.deltaTime);
+            if (Vector3.Distance(playerAnimator.transform.position,TargetPointPosition)<0.3f)
+            {
+                isGameStart = false;
+                Debug.Log("游戏结束");
+            }
+        }
+    }
     protected override void Instance_OnCompetitiveBrainWaveValueChangeEvent(List<UserStateDetect.UserData> list)
     {
         if (!isGameStart)
