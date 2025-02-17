@@ -11,6 +11,7 @@ public class HighSpaceWalk : GameLogic
 
     public Transform TargetPoint;
     private Vector3 TargetPointPosition;
+
     public override void Start()
     {
         base.Start();
@@ -27,6 +28,8 @@ public class HighSpaceWalk : GameLogic
             {
                 isGameStart = false;
                 Debug.Log("游戏结束");
+                playerAnimator.SetTrigger("Idle");
+                Instance_OnGameEndEvent();
             }
         }
     }

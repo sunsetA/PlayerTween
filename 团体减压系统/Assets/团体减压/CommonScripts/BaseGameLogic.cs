@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
@@ -19,6 +20,12 @@ public abstract class BaseGameLogic : MonoBehaviour
     [SerializeField]
     protected bool isGameStart = false;
 
+    [SerializeField]
+    protected GameObject CelebrateParticleSystem;
+
+
+    [SerializeField]
+    protected UnityEvent m_OnGameEndEvent;
     public virtual void Start()
     {
         UserStateDetect.Instance.OnBrainWaveValueChangeEvent += Instance_OnBrainWaveValueChangeEvent;
@@ -89,5 +96,9 @@ public abstract class BaseGameLogic : MonoBehaviour
     protected abstract void Instance_OnGameStartEvent();
 
 
+    /// <summary>
+    /// 游戏结束事件回调
+    /// </summary>
+    protected abstract void Instance_OnGameEndEvent();
 }
 

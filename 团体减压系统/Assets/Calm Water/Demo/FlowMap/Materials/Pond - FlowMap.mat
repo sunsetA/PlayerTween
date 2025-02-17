@@ -168,7 +168,7 @@ Material:
     - _specFresnel: 2.47
     - _specIntensity: 2
     m_Colors:
-    - _Color: {r: 0.3753785, g: 0.9632353, b: 0.5497084, a: 1}
+    - _Color: {r: 0.6034621, g: 0.6698113, b: 0.6229245, a: 1}
     - _CubeColor: {r: 1, g: 1, b: 1, a: 1}
     - _DepthColor: {r: 0, g: 0.3395038, b: 0.47794116, a: 1}
     - _DisplacementSpeed: {r: 1, g: 1, b: 1, a: 1}

@@ -11,12 +11,19 @@ public class ClimbMountainManager : GameLogic
     public float NormalSpeed = 1;
 
     [SerializeField]
-    private List<Transform> pathPoints;
+    public List<Transform> pathPoints;
 
     private List<Vector3> pathPointsPosition = new List<Vector3>();
 
 
     Tween pathTween;
+
+    private Vector3 Camera_PlayerOffset;
+
+    private Vector3 PlayerOffset;
+
+
+    Vector3 cameraOriginPos;
     public override void Start()
     {
         base.Start();
@@ -31,8 +38,12 @@ public class ClimbMountainManager : GameLogic
         }
 
 
-        pathTween = Animators[0].transform.parent.DOPath(pathPointsPosition.ToArray(), 60).SetEase(Ease.Linear).SetLookAt(0.01f); ; ;
+        pathTween = Animators[0].transform.parent.DOPath(pathPointsPosition.ToArray(), 200).SetEase(Ease.Linear).SetLookAt(0.01f); ; ;
 
+        PlayerOffset = Animators[0].transform.position;
+        Camera_PlayerOffset= Camera.main.transform.position - Animators[0].transform.position;
+        //positionOffset = Animators[0].transform.position - Camera.main.transform.position;
+        cameraOriginPos = Camera.main.transform.position;
     }
     // Update is called once per frame
     void Update()
@@ -45,6 +56,9 @@ public class ClimbMountainManager : GameLogic
         {
             pathTween.timeScale = 20;
         }
+
+        Camera.main.transform.position= (Animators[0].transform.position-PlayerOffset)/* + Camera_PlayerOffset */+ cameraOriginPos;
+
     }
 
 

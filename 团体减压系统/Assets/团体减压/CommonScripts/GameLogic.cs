@@ -4,6 +4,14 @@ using UnityEngine;
 /*转为UTF-8*/
 public class GameLogic : BaseGameLogic
 {
+    public override void Start()
+    {
+        base.Start();
+        m_OnGameEndEvent.AddListener(() => 
+        {
+            CelebrateParticleSystem?.gameObject.SetActive(true);
+        });
+    }
     protected override void Instance_OnBrainWaveValueChangeEvent(List<UserStateDetect.UserData> obj)
     {
 
@@ -53,5 +61,10 @@ public class GameLogic : BaseGameLogic
     {
         isGameStart = true;
         m_OnGameStartEvent?.Invoke();
+    }
+
+    protected override void Instance_OnGameEndEvent()
+    {
+        m_OnGameEndEvent?.Invoke();
     }
 }

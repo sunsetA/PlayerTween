@@ -86,6 +86,11 @@ public class UserStateDetect : MonoBehaviour
     /// </summary>
     public event Action OnGameStartEvent;
 
+    /// <summary>
+    /// 游戏结束事件
+    /// </summary>
+    public event Action OnGameEndEvent;
+
     public string address = "wss://echo.websocket.events";
 
     WebSocket socket;
