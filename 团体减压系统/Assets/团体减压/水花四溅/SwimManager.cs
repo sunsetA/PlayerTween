@@ -5,41 +5,82 @@ using UnityEngine;
 public class SwimManager : GameLogic
 {
 
-    /// <summary>
-    /// 游泳速度
-    /// </summary>
     [SerializeField]
-    private float swimSpeed;
-
-    public float SwimSpeed
+    public class SwimModel
     {
-        get { return swimSpeed; }
-        set
+        public int AnimatorIndex = 0;
+        /// <summary>
+        /// 游泳速度
+        /// </summary>
+        [SerializeField]
+        private float swimSpeed;
+
+        public float SwimSpeed
         {
-            if (value == 0)
+            get { return swimSpeed; }
+            set
             {
-                if (swimSpeed == 0)
+                if (value == 0)
                 {
-                    //无事发生
+                    if (swimSpeed == 0)
+                    {
+                        //无事发生
+                    }
+                    else
+                    {
+                        //TODO:停止游泳动画
+                        //停止游泳
+                        swimAnimator?.Play("Idle");
+                    }
                 }
                 else
                 {
-                    //TODO:停止游泳动画
-                    //停止游泳
+                    if (swimSpeed == 0)
+                    {
+                        //TODO:播放动画
+                        swimAnimator?.Play("Swim");
+                    }
+                    else
+                    {
+                        //无事发生
+                    }
                 }
+                swimSpeed = value;
             }
-            else 
+        }
+
+        public Animator swimAnimator;
+
+        public Vector3 Destination;
+    }
+    public List<SwimModel> SwimModels = new List<SwimModel>();
+
+    public GameObject ArrowItem;
+    public override void Start()
+    {
+        base.Start();
+        for (int i = 0; i < Animators.Count; i++)
+        {
+            SwimModel _swimModel = new SwimModel();
+            _swimModel.AnimatorIndex = i;
+            _swimModel.swimAnimator = Animators[i];
+            _swimModel.SwimSpeed = 0;
+            _swimModel.Destination = Animators[i].transform.position + Animators[i].transform.forward * 48;
+            _swimModel.swimAnimator.Play("Idle");
+            SwimModels.Add(_swimModel);
+        }
+    }
+
+    private void LateUpdate()
+    {
+        foreach (var item in SwimModels)
+        {
+            item.swimAnimator.transform.position=Vector3.MoveTowards(item.swimAnimator.transform.position, item.Destination, Time.deltaTime * item.SwimSpeed * 0.5f);
+            //item.swimAnimator.transform.position = Vector3.Lerp(item.swimAnimator.transform.position, item.Destination, Time.deltaTime * item.SwimSpeed * 0.02f);
+            if (Vector3.Distance(item.swimAnimator.transform.position, item.Destination) < 0.2f)
             {
-                if (swimSpeed==0)
-                {
-                    //TODO:播放动画
-                }
-                else
-                {
-                    //无事发生
-                }
+                Instance_OnGameEndEvent();
             }
-            swimSpeed = value;
         }
     }
 
@@ -47,12 +88,24 @@ public class SwimManager : GameLogic
     protected override void Instance_OnCompetitiveBreathValueChangeEvent(List<UserStateDetect.UserData> list)
     {
         base.Instance_OnCompetitiveBreathValueChangeEvent(list);
-        var breathValue = list.Find(x => x.userID == UserStateDetect.Instance.userInfo.userID).breathRate;
+        foreach (var item in list)
+        {
+            int userID= item.userID;
 
-        SwimSpeed= GetEventDependBreathRate(breathValue);
+            var _breathValue = item.breathRate;
+            SwimModels[userID].SwimSpeed = GetEventDependBreathRate(_breathValue);
+        }
 
     }
 
+    protected override void Instance_OnGameStartEvent()
+    {
+        base.Instance_OnGameStartEvent();
+        Camera.main.transform.SetParent(Animators[UserStateDetect.Instance.userInfo.userID].transform );
+        ArrowItem.transform.SetParent(Animators[UserStateDetect.Instance.userInfo.userID].transform);
+        ArrowItem.transform.localPosition = Vector3.zero;
+
+    }
 
     /// <summary>
     /// 根据呼吸率获取事件对应的游泳速度
@@ -84,4 +137,7 @@ public class SwimManager : GameLogic
         }
         return result;
     }
+
+
+
 }

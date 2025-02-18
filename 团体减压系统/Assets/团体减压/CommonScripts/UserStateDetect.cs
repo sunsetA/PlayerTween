@@ -251,12 +251,22 @@ public class UserStateDetect : MonoBehaviour
             yield return new WaitForSeconds(1);
             List<UserData> obj = new List<UserData>();
 
-            UserData userData = new UserData(1);
-            userData.breathRate = UnityEngine.Random.Range(60, 80);
+            UserData userData = new UserData(0);
+            userData.breathRate = UnityEngine.Random.Range(10, 30);
             userData.heartRate = UnityEngine.Random.Range(60, 80);
             userData.brainWave = UnityEngine.Random.Range(60, 80);
+
+
+            UserData userData1 = new UserData(1);
+            userData1.breathRate = UnityEngine.Random.Range(0, 40);
+            userData1.heartRate = UnityEngine.Random.Range(60, 80);
+            userData1.brainWave = UnityEngine.Random.Range(60, 80);
+
+
             obj.Add(userData);
+            obj.Add(userData1);
             userInfo = userData;
+            users= new ObservableCollection<UserData>(obj);
             isPlaying = true;
             OnGameStartEvent?.Invoke();
             OnHeartValueChangeEvent?.Invoke(obj);

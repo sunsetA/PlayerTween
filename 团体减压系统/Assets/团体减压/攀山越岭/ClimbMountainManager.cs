@@ -13,7 +13,10 @@ public class ClimbMountainManager : GameLogic
     [SerializeField]
     public List<Transform> pathPoints;
 
+    public GameObject playerTween;
+
     private List<Vector3> pathPointsPosition = new List<Vector3>();
+
 
 
     Tween pathTween;
@@ -24,6 +27,8 @@ public class ClimbMountainManager : GameLogic
 
 
     Vector3 cameraOriginPos;
+
+    float originAnimatorSpeed = 0;
     public override void Start()
     {
         base.Start();
@@ -37,8 +42,10 @@ public class ClimbMountainManager : GameLogic
             pathPointsPosition.Add(pathPoints[i].position);
         }
 
+        originAnimatorSpeed = Animators[0].speed;
+        Animators[0].speed = 0;
 
-        pathTween = Animators[0].transform.parent.DOPath(pathPointsPosition.ToArray(), 200).SetEase(Ease.Linear).SetLookAt(0.01f); ; ;
+
 
         PlayerOffset = Animators[0].transform.position;
         Camera_PlayerOffset= Camera.main.transform.position - Animators[0].transform.position;
@@ -75,30 +82,36 @@ public class ClimbMountainManager : GameLogic
                 {
                     //不动
                     //navMeshAgents[item.userID].speed = 0;
+                    pathTween.timeScale = 0;
                 }
                 else if (m_heartRate>=50&&m_heartRate<60)
                 {
                     //移动速度比正常速度，低1/2
                     //navMeshAgents[item.userID].speed = NormalSpeed/2;
+                    pathTween.timeScale=0.5f;
                 }
 
                 else if (m_heartRate >= 60 && m_heartRate < 90)
                 {
                     //移动速度比正常速度，低1/3
                     //navMeshAgents[item.userID].speed = NormalSpeed/3;
+                    pathTween.timeScale = 0.3f;
                 }
                 else if (m_heartRate >= 90 && m_heartRate < 100)
                 {
                     //不动
                     //navMeshAgents[item.userID].speed = 0;
+                    pathTween.timeScale = 0;
                 }
                 else if (m_heartRate >= 100 && m_heartRate < 115)
                 {
                     //往下掉落，与正常上行的幅度 同等幅度
+                    pathTween.timeScale = -1;
                 }
                 else
                 {
                     //往下掉落，与正常上行的幅度 同等幅度*2 
+                    pathTween.timeScale = -2;
                 }
                 //navMeshAgents[item.userID].speed = NormalSpeed;
             } 
@@ -109,7 +122,16 @@ public class ClimbMountainManager : GameLogic
     protected override void Instance_OnGameStartEvent()
     {
         base.Instance_OnGameStartEvent();
-
+        if (pathTween == null)
+        {
+            Animators[0].speed = originAnimatorSpeed;
+            pathTween = Animators[0].transform.parent.DOPath(pathPointsPosition.ToArray(), 200).SetEase(Ease.Linear).SetLookAt(0.01f).OnComplete(() =>
+            {
+                playerTween.SetActive(true);
+                Animators[0].gameObject.SetActive(false);
+                Instance_OnGameEndEvent();
+            }); ; ;
+        }
     }
 
 
