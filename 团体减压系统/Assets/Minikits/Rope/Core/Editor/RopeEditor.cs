@@ -6,6 +6,7 @@ using Unity.Mathematics;
 
 namespace RopeMinikit
 {
+#if UNITY_EDITOR
     [CustomEditor(typeof(Rope)), CanEditMultipleObjects]
     public class RopeEditor : Editor
     {
@@ -77,4 +78,5 @@ namespace RopeMinikit
             }
         }
     }
+#endif
 }

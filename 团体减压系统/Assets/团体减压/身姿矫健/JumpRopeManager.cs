@@ -2,13 +2,9 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
-using UnityEngine.Formats.Alembic.Importer;
-using UnityEngine.Formats.Alembic.Timeline;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
-using static UnityEditor.Progress;
 /*转为UTF-8*/
 public class JumpRopeManager : GameLogic
 {

@@ -3,13 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityWebSocket;
+using LitJson;
 using static UserStateDetect;
-
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.SignalR;
 [Serializable]
 public enum TrainType
 {
@@ -18,9 +24,17 @@ public enum TrainType
     //合作
     Collaborate,
 }
+[Serializable]
+public class MessageData1
+{
+    public string Type;
+    public UserData Data;
+}
 /*转为UTF-8*/
 public class UserStateDetect : MonoBehaviour
 {
+    [DllImport("__Internal")]
+    private static extern string StringReturnHostFunction();  //获取域名和端口号
     public UserStateDetect()
     {
         Instance = this;
@@ -35,12 +49,6 @@ public class UserStateDetect : MonoBehaviour
     private bool isPlaying;
 
 
-    /// <summary>
-    /// 获取url从问号开始的地址到结束
-    /// </summary>
-    /// <returns></returns>
-    [DllImport("__Internal")]
-    private static extern string StringReturnValueFunction();  
 
 
 
@@ -93,9 +101,9 @@ public class UserStateDetect : MonoBehaviour
 
     public string address = "wss://echo.websocket.events";
 
-    WebSocket socket;
+    UnityWebSocket.WebSocket socket;
 
-    public WebSocket Socket
+    public UnityWebSocket.WebSocket Socket
     {
         get { return socket; }
     }
@@ -110,10 +118,21 @@ public class UserStateDetect : MonoBehaviour
     /// 是否为测试模式
     /// </summary>
     public bool isTest;
+
+
+    /// <summary>
+    /// 完整的URL，包含当前端口号、用户名、游戏名
+    /// </summary>
+    private string totalUrl;
+
+    private string url;
+
+
     private void Awake()
     {
         //先获取用户数据
         GetUserInfo();
+        //Invoke("DelayINvoke", 10);
     }
 
     //private void Users_CollectionChanged(object sender)
@@ -121,19 +140,37 @@ public class UserStateDetect : MonoBehaviour
     //    Debug.Log("length changed");
     //    OnUserLenghChangeEvent?.Invoke(((ObservableCollection<UserData>)sender).ToList());
     //}
+  
 
     private void Start()
     {
+        //userInfo = new UserData(110);
+        //userInfo.userID = 110;
+        //userInfo.userName = "hf";
+        //userInfo.gameName = "shuiyuan";
+
+        //MessageData1 messagedata = new MessageData1
+        //{
+        //    Type = "EnterGameRoom",
+        //    Data = userInfo
+        //};
+        //var content1 = JsonUtility.ToJson(messagedata);
+        //Debug.Log(content1);
 
         // 创建实例
-        socket = new WebSocket(address);
+        //address = string.Format("ws://192.168.30.10:22240/hubs/chat?uid={0}", 920);
+        address = "ws://echo.websocket.orgws://192.168.30.10:22240/hubs/chat?uid=2";
+        socket = new UnityWebSocket.WebSocket(address);
         socket.OnOpen += Socket_OnOpen;
         socket.OnClose += Socket_OnClose;
         socket.OnMessage += Socket_OnMessage;
         socket.OnError += Socket_OnError;
         socket.ConnectAsync();
-    }
 
+
+
+    }
+    
     private void GetUserInfo()
     {
         //TODO:从url中解析出用户id   
@@ -141,15 +178,29 @@ public class UserStateDetect : MonoBehaviour
         //*2.暂定第一个就是用户id
         try
         {
-            var url = StringReturnValueFunction();
-            var userID = url.Split('=')[1];
-            userInfo = new UserData(int.Parse(userID));
+            //totalUrl = StringReturnHostFunction();
+            //var originurl= totalUrl.Split('&')[0];
+            //url= originurl.Split('=')[1];
+
+            //var userName= totalUrl.Split('&')[1].Split('=')[1];
+            //var userId=totalUrl.Split('&')[2].Split('=')[1];
+            //var gameName = totalUrl.Split('&')[3].Split('=')[1];
+            url = "http://192.168.30.10:22240";
+            var userId = "10023";
+            var userName = "lm";
+            var gameName = "GroupTrain";
+
+            userInfo = new UserData(int.Parse(userId));
+            userInfo.userName = userName;
+            userInfo.gameName = gameName;
             users.Add(userInfo);
+            //GameObject.Find("FindText").GetComponent<Text>().text = "message is :" + totalUrl;
         }
-        catch (Exception)
+        catch (Exception ep)
         {
 
-            Debug.LogWarning("check url");
+            Debug.LogError("check url");
+            GameObject.Find("FindText").GetComponent<Text>().text = "Get userInfo msg: :" + ep.Message;
         }
 
     }
@@ -164,12 +215,15 @@ public class UserStateDetect : MonoBehaviour
     {
         Debug.Log("Receive Message:"+e.Data);
 
+
+        //var content = JsonConvert.DeserializeObject<MessageData1>(e.Data);
+
         //TODO:对广播的数据进行拆分，分为两类
         //1.广播有人上/下线
         //2.广播更新心率、脑波等数据
 
         //UserData LoginData = e.Data;
-        List<UserData> userDatas= JsonUtility.FromJson<List<UserData>>(e.Data);
+        //List<UserData> userDatas= JsonUtility.FromJson<List<UserData>>(e.Data);
 
         //UserData LoginData = new UserData(2); ;
 
@@ -222,24 +276,44 @@ public class UserStateDetect : MonoBehaviour
         Debug.LogError(e.ToString());
     }
 
+
+
     private void Socket_OnOpen(object sender, OpenEventArgs e)
     {
         Debug.LogFormat("sockect is OnOpen,message is :{0}",e.ToString());
     }
 
+    private void Socket_SendEvent(string eventName,string eventData) 
+    {
+        try
+        {
+            Socket.SendAsync(eventData);
+            Debug.Log("send login msg: :" + eventData) ;
+        }
+        catch (Exception ex)
+        {
+            Debug.Log("send login msg error :" + ex.Message); ;
+
+        }
+
+
+    }
+
+
     private void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            socket.SendAsync("delay");
-        }
 
         if (Input.GetKeyDown(KeyCode.T))
         {
             isTest = true;
 
             StartCoroutine(FakeUpdate());
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Socket_SendEvent("EnterGameRoom", JsonUtility.ToJson(userInfo));
         }
 
     }
@@ -360,13 +434,40 @@ public class UserStateDetect : MonoBehaviour
         {
             isPlaying = true;
         }
+
+
+
+
+
+
+
+        //=============================
+
+
     }
 
 
+    /// <summary>
+    /// 发送消息的数据类型
+    /// </summary>
+
+    public class MessageData 
+    {
+        public ChatRoomData chatRoomData;
+        public string msg;
+    }
+
+    public class ChatRoomData
+    {
+        public int userId;
+        public string userName;
+        public string gameName;
+    }
     public class UserData
     {
         public int userID;
-
+        public string userName;
+        public string gameName;
         public string gender;
         public float heartRate;
         public float brainWave;
