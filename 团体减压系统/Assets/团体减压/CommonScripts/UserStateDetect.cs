@@ -42,6 +42,9 @@ public class UserStateDetect : MonoBehaviour
 
     public static UserStateDetect Instance;
 
+    public ServerHelper serverHelper;
+
+
     public TrainType trainType = TrainType.Collaborate;
 
 
